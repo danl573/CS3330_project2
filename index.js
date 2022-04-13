@@ -1,7 +1,14 @@
 const express = require('express');
 
 // Import any route handlers here.
-const studentRoutes = require('./routes/student');
+const carRoutes = require('./routes/car');
+const employeeRoutes = require('./routes/employee');
+const entryRoutes = require('./routes/entry');
+const eventRoutes = require('./routes/event');
+const parkingAllocationRoutes = require('./routes/parking_allocation');
+const parkingLotRoutes = require('./routes/parking_lot');
+const parkingSpaceRoutes = require('./routes/parking_space');
+const stadiumRoutes = require('./routes/stadium');
 
 // Import any middleware here
 const { createModelsMiddleware, disconnectFromDatababaseMiddleware } = require('./middleware/model-middleware');
@@ -16,15 +23,22 @@ const port = 3000;
 app.use(createModelsMiddleware);
 
 // Add a health route. Note the new argument: next
-app.get('/health', (request, response, next) => {
-    const responseBody = { status: 'up', port };
-    response.json(responseBody);
-    // next() is how we tell express to continue through the middleware chain
-    next();
-});
+// app.get('/health', (request, response, next) => {
+//     const responseBody = { status: 'up', port };
+//     response.json(responseBody);
+//     // next() is how we tell express to continue through the middleware chain
+//     next();
+// });
 
 // For any route that starts with `/students`, use the route handler here
-app.use('/students', studentRoutes);
+app.use('/car', carRoutes);
+app.use('/employee', employeeRoutes);
+app.use('/entry', entryRoutes);
+app.use('/event', eventRoutes);
+app.use('/parking_allocation', parkingAllocationRoutes);
+app.use('/parking_lot', parkingLotRoutes);
+app.use('/parking_space', parkingSpaceRoutes);
+app.use('/stadium', stadiumRoutes);
 
 // The last step of a request middleware chain is to disconnect from the DB.
 app.use(disconnectFromDatababaseMiddleware);

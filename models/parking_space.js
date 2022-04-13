@@ -33,7 +33,7 @@ class Parking_space {
         this.disconnect();
     }
 
-    async fetchAllParkingSpace () {
+    async fetchAllParkingSpaces () {
         const results = await this.DBQuery('SELECT * FROM parking_space');
         return results;
     }

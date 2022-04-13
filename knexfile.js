@@ -7,7 +7,7 @@ module.exports = {
         port : 3306,
         user : 'root',
         password : 'b',
-        insecureAuth: true,
+        insecureAuth: false,
         database : 'project_1'
       }
     }

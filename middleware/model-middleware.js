@@ -23,12 +23,12 @@ const createModelsMiddleware = async (req, res, next) => {
     req.models = {
         car: new Car(DBQuery, disconnect),
         employee: new Employee(DBQuery, disconnect),
-        entry = new Entry(DBQuery, disconnect),
-        event = new Event(DBQuery, disconnect),
-        parking_allocation = new Parking_Allocation(DBQuery, disconnect),
-        parking_lot = new Parking_Lot(DBQuery, disconnect),
-        parking_space = new Parking_Space(DBQuery, disconnect),
-        stadium = new Stadium(DBQuery, disconnect)
+        entry: new Entry(DBQuery, disconnect),
+        event: new Event(DBQuery, disconnect),
+        parking_allocation: new Parking_Allocation(DBQuery, disconnect),
+        parking_lot: new Parking_Lot(DBQuery, disconnect),
+        parking_space: new Parking_Space(DBQuery, disconnect),
+        stadium: new Stadium(DBQuery, disconnect)
 
     }
     req.disconnect = disconnect;
