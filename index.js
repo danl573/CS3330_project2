@@ -23,12 +23,12 @@ const port = 3000;
 app.use(createModelsMiddleware);
 
 // Add a health route. Note the new argument: next
-// app.get('/health', (request, response, next) => {
-//     const responseBody = { status: 'up', port };
-//     response.json(responseBody);
-//     // next() is how we tell express to continue through the middleware chain
-//     next();
-// });
+app.get('/health', (request, response, next) => {
+    const responseBody = { status: 'up', port };
+    response.json(responseBody);
+    // next() is how we tell express to continue through the middleware chain
+    next();
+});
 
 // For any route that starts with `/students`, use the route handler here
 app.use('/car', carRoutes);

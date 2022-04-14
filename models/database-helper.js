@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const util = require('util');
 
 const connectToDatabase = async () => {
@@ -7,7 +7,7 @@ const connectToDatabase = async () => {
         const DBConnection = mysql.createConnection({
             host: 'localhost',
             user: 'root',
-            password: 'b',
+            password: 'password',
             insecureAuth: false,
             database: 'project_1'
         });

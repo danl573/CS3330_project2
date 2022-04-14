@@ -18,6 +18,6 @@
   "homepage": "https://github.com/danl573/CS3330_project2#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "mysql": "^2.18.1"
+    "mysql2": "^2.3.3"
   }
 }

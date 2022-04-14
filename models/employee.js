@@ -22,6 +22,7 @@
 //     findStadiumByName,
 //     getStadium
 // };
+const bcrypt = require('bcrypt');
 
 class Employee {
     constructor(_DBQuery, _disconnect) {
@@ -31,6 +32,32 @@ class Employee {
 
     close () {
         this.disconnect();
+    }
+
+    async createNewEmployee (employee_id, password) {
+        console.log('Raw password:', password);
+        const salt = await bcrypt.genSalt(10);
+        console.log('Password salt', salt);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        console.log('Hashed password', hashedPassword);
+
+        const result = await this.DBQuery('')
+
+
+
+
+
+        console.log('Raw password:', password);
+        const salt = await bcrypt.genSalt(10);
+        console.log('Password salt', salt);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        console.log('Hashed password', hashedPassword);
+    
+        const query = knex(USER_TABLE).insert({ employee_id, password: hashedPassword });
+        console.log('Raw query for createNewUser:', query.toString());
+        const result = await query;
+    
+        return result;
     }
 
     async fetchAllEmployees () {
