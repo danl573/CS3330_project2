@@ -11,16 +11,20 @@ const parkingAllocationRoutes = require('./routes/parking_allocation');
 const parkingLotRoutes = require('./routes/parking_lot');
 const parkingSpaceRoutes = require('./routes/parking_space');
 const stadiumRoutes = require('./routes/stadium');
+
 const sessionRoutes = require('./routes/session');
+const accountRoutes = require('./routes/account');
 
 // Import any middleware here
 const { createModelsMiddleware, disconnectFromDatababaseMiddleware } = require('./middleware/model-middleware');
+const { authenticateJWT, authenticateWithClaims } = require('./middleware/auth');
 
 
 // Start by defining the express app instance
 const app = express();
 const port = 3000;
 
+// So routes can parse json files for parameters
 app.use(bodyParser.json());
 
 // On every request, this gets called first. This is the first step in our "middleware chain".
@@ -37,15 +41,17 @@ app.get('/health', (request, response, next) => {
 });
 
 // For any route that starts with `/students`, use the route handler here
-app.use('/car', carRoutes);
-app.use('/employee', employeeRoutes);
-app.use('/entry', entryRoutes);
-app.use('/event', eventRoutes);
-app.use('/parking_allocation', parkingAllocationRoutes);
-app.use('/parking_lot', parkingLotRoutes);
-app.use('/parking_space', parkingSpaceRoutes);
-app.use('/stadium', stadiumRoutes);
+app.use('/car', authenticateJWT, carRoutes);
+app.use('/employee', authenticateJWT, employeeRoutes);
+app.use('/entry', authenticateJWT, entryRoutes);
+app.use('/event', authenticateJWT, eventRoutes);
+app.use('/parking_allocation', authenticateJWT, parkingAllocationRoutes);
+app.use('/parking_lot', authenticateJWT, parkingLotRoutes);
+app.use('/parking_space', authenticateJWT, parkingSpaceRoutes);
+app.use('/stadium', authenticateJWT, stadiumRoutes);
+
 app.use('/session', sessionRoutes);
+app.use('/account', accountRoutes);
 
 // The last step of a request middleware chain is to disconnect from the DB.
 app.use(disconnectFromDatababaseMiddleware);

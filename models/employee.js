@@ -1,27 +1,3 @@
-// const knex = require('../database/knex');
-
-// const STADIUM_TABLE = 'stadium';
-
-// const createStadium = async (stadium_name, seating, address, lots) => {
-//     const query = knex(ANIMAL_TABLE).insert({ stadium_name, seating, address, lots });
-//     const result = await query;
-//     return result;
-// };
-
-// const findAnimalByName = async (stadium_name) => {
-//     return await knex(STADIUM_TABLE).where({ stadium_name });
-// };
-
-// const getStadium = async () => {
-//     return await knex(STADIUM_TABLE);
-// }
-
-
-// module.exports = {
-//     createStadium,
-//     findStadiumByName,
-//     getStadium
-// };
 const bcrypt = require('bcrypt');
 
 class Employee {
@@ -62,14 +38,15 @@ class Employee {
         console.log('Results of employees query', employees);
         if(employees.length === 0) {
             console.error(`No users matched the id: ${employee_id}`);
-            return false;
+            return null;
         }
         const employee = employees[0];
         const validPassword = await bcrypt.compare(password, employee.password);
         if(validPassword) {
-            return true;
+            delete employee.password
+            return employee;
         }
-        return false;
+        return null;
     }
 
 
