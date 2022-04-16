@@ -1,28 +1,3 @@
-// const knex = require('../database/knex');
-
-// const STADIUM_TABLE = 'stadium';
-
-// const createStadium = async (stadium_name, seating, address, lots) => {
-//     const query = knex(ANIMAL_TABLE).insert({ stadium_name, seating, address, lots });
-//     const result = await query;
-//     return result;
-// };
-
-// const findAnimalByName = async (stadium_name) => {
-//     return await knex(STADIUM_TABLE).where({ stadium_name });
-// };
-
-// const getStadium = async () => {
-//     return await knex(STADIUM_TABLE);
-// }
-
-
-// module.exports = {
-//     createStadium,
-//     findStadiumByName,
-//     getStadium
-// };
-
 class Car {
     constructor(_DBQuery, _disconnect) {
         this.DBQuery = _DBQuery;
@@ -31,6 +6,14 @@ class Car {
 
     close () {
         this.disconnect();
+    }
+
+
+
+    async createNewCar (license, car_type, space_num, vin, driver_name, credit_card) {
+        const result = await this.DBQuery('INSERT INTO car(license, car_type, space_num, vin, driver_name, credit_card) VALUES (?,?,?,?,?,?)',[license, car_type, space_num, vin, driver_name, credit_card]);
+        console.log('Raw query for createNewCar:', result.toString());
+        return result;
     }
 
     async fetchAllCar () {

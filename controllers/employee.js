@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const Employee = require('../models/employee');
-const router = require('../routes/car');
 
 const accessTokenSecret = 'mysupercoolsecret';
 
@@ -37,7 +36,6 @@ const getUser = async (token) => {
       return res.sendStatus(403);
     }
     
-    console.log('returning employee', employee);
     emp = employee;
 
   });

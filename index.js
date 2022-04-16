@@ -3,20 +3,14 @@ const bodyParser = require('body-parser');
 
 
 // Import any route handlers here.
-const carRoutes = require('./routes/car');
 const employeeRoutes = require('./routes/employee');
-const entryRoutes = require('./routes/entry');
-const eventRoutes = require('./routes/event');
-const parkingAllocationRoutes = require('./routes/parking_allocation');
-const parkingLotRoutes = require('./routes/parking_lot');
-const parkingSpaceRoutes = require('./routes/parking_space');
-const stadiumRoutes = require('./routes/stadium');
-
+const allocationRoutes = require('./routes/allocation');
+const spotRoutes = require('./routes/spots');
 const sessionRoutes = require('./routes/session');
 const accountRoutes = require('./routes/account');
 
 // Import any middleware here
-const { createModelsMiddleware, disconnectFromDatababaseMiddleware } = require('./middleware/model-middleware');
+const { createModelsMiddleware, disconnectFromDatababaseMiddleware, logRequest } = require('./middleware/model-middleware');
 const { authenticateJWT, authenticateWithClaims } = require('./middleware/auth');
 
 
@@ -41,17 +35,13 @@ app.get('/health', (request, response, next) => {
 });
 
 // For any route that starts with `/students`, use the route handler here
-app.use('/car', authenticateJWT, carRoutes);
 app.use('/employee', authenticateJWT, employeeRoutes);
-app.use('/entry', authenticateJWT, entryRoutes);
-app.use('/event', authenticateJWT, eventRoutes);
-app.use('/parking_allocation', authenticateJWT, parkingAllocationRoutes);
-app.use('/parking_lot', authenticateJWT, parkingLotRoutes);
-app.use('/parking_space', authenticateJWT, parkingSpaceRoutes);
-app.use('/stadium', authenticateJWT, stadiumRoutes);
-
+app.use('/allocation', authenticateJWT, allocationRoutes);
+app.use('/spots', authenticateJWT, spotRoutes);
 app.use('/session', sessionRoutes);
 app.use('/account', accountRoutes);
+
+app.use(logRequest);
 
 // The last step of a request middleware chain is to disconnect from the DB.
 app.use(disconnectFromDatababaseMiddleware);

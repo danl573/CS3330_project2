@@ -15,7 +15,6 @@ const connectToDatabase = async () => {
         // Actually create the connection
         const DBCreateConnection = util.promisify(DBConnection.connect).bind(DBConnection);
         await DBCreateConnection();
-        console.log('kachow');
 
         // We return two things: a function that lets us run queries, and another to
         // disconnect from the DB at the end of a route. We don't want connections lingering

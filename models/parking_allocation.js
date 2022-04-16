@@ -1,28 +1,3 @@
-// const knex = require('../database/knex');
-
-// const STADIUM_TABLE = 'stadium';
-
-// const createStadium = async (stadium_name, seating, address, lots) => {
-//     const query = knex(ANIMAL_TABLE).insert({ stadium_name, seating, address, lots });
-//     const result = await query;
-//     return result;
-// };
-
-// const findAnimalByName = async (stadium_name) => {
-//     return await knex(STADIUM_TABLE).where({ stadium_name });
-// };
-
-// const getStadium = async () => {
-//     return await knex(STADIUM_TABLE);
-// }
-
-
-// module.exports = {
-//     createStadium,
-//     findStadiumByName,
-//     getStadium
-// };
-
 class Parking_allocation {
     constructor(_DBQuery, _disconnect) {
         this.DBQuery = _DBQuery;
@@ -33,6 +8,14 @@ class Parking_allocation {
         this.disconnect();
     }
 
+    async createNewAllocation (employee_id, license, car_type, space_num, event, event_date) {
+        const t = new Date();
+
+        const result = await this.DBQuery('INSERT INTO parking_allocation(employee_id, event_name, date, space_num, car_type, license, allocation_time, cost) VALUES (?,?,?,?,?,?,?,?)',[employee_id, event, event_date, space_num, car_type, license, t.getTime(), 45]);
+        console.log('Raw query for createNewCar:', result.toString());
+        return result;
+    }
+
     async fetchAllParkingAllocations () {
         const results = await this.DBQuery('SELECT * FROM parking_allocation');
         return results;
@@ -40,6 +23,20 @@ class Parking_allocation {
 
     async fetchParkingAllocationsById (allocation_id) {
         const results = await this.DBQuery('SELECT * FROM parking_allocation WHERE allocation_id = ?', [allocation_id]);
+        return results;
+    }
+
+    async updateAllocation(allocation_id, employee_id, license, car_type, space_num, event, event_date) {
+        const t = new Date();
+
+        const result = await this.DBQuery('UPDATE parking_allocation SET employee_id = ?, event_name = ?, date = ?, space_num = ?, car_type = ?, license = ?, allocation_time = ?, cost = ? WHERE allocation_id = ?',
+            [employee_id, event, event_date, space_num, car_type, license, t.getTime(), 45, allocation_id]);
+
+        return result;
+    }
+
+    async deleteAllocation(allocation_id) {
+        const results = await this.DBQuery('DELETE FROM parking_allocation WHERE allocation_id = ?', [allocation_id]);
         return results;
     }
 }

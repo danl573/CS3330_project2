@@ -9,7 +9,7 @@ router.post('/', async (req, res, next) => {
         const body = req.body;
         
         const result = await EmployeeController.authenticateUser(req.models.employee, body.employee_id, body.password);
-        res.status(201).json(result);
+        res.status(200).json(result);
     } catch (err) {
         console.error('Failed to authenticate employee:', err);
         res.status(500).json({ message: err.toString() });

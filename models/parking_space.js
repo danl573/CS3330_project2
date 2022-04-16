@@ -1,28 +1,3 @@
-// const knex = require('../database/knex');
-
-// const STADIUM_TABLE = 'stadium';
-
-// const createStadium = async (stadium_name, seating, address, lots) => {
-//     const query = knex(ANIMAL_TABLE).insert({ stadium_name, seating, address, lots });
-//     const result = await query;
-//     return result;
-// };
-
-// const findAnimalByName = async (stadium_name) => {
-//     return await knex(STADIUM_TABLE).where({ stadium_name });
-// };
-
-// const getStadium = async () => {
-//     return await knex(STADIUM_TABLE);
-// }
-
-
-// module.exports = {
-//     createStadium,
-//     findStadiumByName,
-//     getStadium
-// };
-
 class Parking_space {
     constructor(_DBQuery, _disconnect) {
         this.DBQuery = _DBQuery;
@@ -41,6 +16,38 @@ class Parking_space {
     async fetchParkingSpaceByNum (space_num) {
         const results = await this.DBQuery('SELECT * FROM parking_space WHERE space_num = ?', [space_num]);
         return results;
+    }
+
+    async fetchParkingSpaceQuery (stadium, lot, available) {
+        let tempString = '';
+        let tempVars = [];
+        if(stadium != null) {
+            tempString += 'WHERE stadium_id = ?';
+            tempVars.push(stadium);
+        } if(lot != null) {
+            if(tempString != '')
+                tempString += ' AND lot_ID = ?';
+            else 
+                tempString += 'WHERE lot_ID = ?';
+            tempVars.push(lot);
+        }
+        if(available != null) {
+            if(tempString != '')
+                tempString += ' AND availability = ?';
+            else 
+                tempString += 'WHERE availability = ?';
+            tempVars.push(available);
+        }
+
+        let query = 'Select * FROM parking_space ' + tempString;
+        const results = await this.DBQuery(query, tempVars);
+        console.log(results);
+        return results;
+    }
+
+    async updateParkingSpace (space_num, availability) {
+        const result = await this.DBQuery('UPDATE parking_space SET availability = ? WHERE space_num = ?', [availability, space_num]);
+        return result;
     }
 }
 

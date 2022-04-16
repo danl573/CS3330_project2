@@ -25,6 +25,7 @@ router.get('/id', async (req, res, next) => {
         console.error('Failed to find Employee:', err);
         res.status(500).json({ message: err.toString() });
     }
+    next();
 });
 
 //:employee_id/:password/:entry_num/:role/:last_name
@@ -42,6 +43,7 @@ router.post('/', async (req,res,next) => {
         console.error('Failed to make employee:', err);
         res.status(500).json({ message: err.toString() });
     }
+    next();
 });
 
 module.exports = router;

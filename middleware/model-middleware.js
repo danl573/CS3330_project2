@@ -1,12 +1,8 @@
 const connectToDatabase = require('../models/database-helper');
 const Car = require('../models/car');
 const Employee = require('../models/employee');
-const Entry = require('../models/entry');
-const Event = require('../models/event');
 const Parking_Allocation = require('../models/parking_allocation');
-const Parking_Lot = require('../models/parking_lot');
 const Parking_Space = require('../models/parking_space');
-const Stadium = require('../models/stadium');
 
 
 
@@ -23,18 +19,20 @@ const createModelsMiddleware = async (req, res, next) => {
     req.models = {
         car: new Car(DBQuery, disconnect),
         employee: new Employee(DBQuery, disconnect),
-        entry: new Entry(DBQuery, disconnect),
-        event: new Event(DBQuery, disconnect),
         parking_allocation: new Parking_Allocation(DBQuery, disconnect),
-        parking_lot: new Parking_Lot(DBQuery, disconnect),
         parking_space: new Parking_Space(DBQuery, disconnect),
-        stadium: new Stadium(DBQuery, disconnect)
 
     }
     req.disconnect = disconnect;
     next();
 }
 
+const logRequest = (req, res, next) => {
+    let d = Date(Date.now());
+    console.log(`   HTTP verb: ${req.method}\n   URL path: ${req.url}\n   Query params: ${req.query}\n   Timestamp: ${d}`);
+    next();
+}
+ 
 /**
  * This middleware function is meant to be registered AFTER the route handlers (see index.js)
  * This closes the connection to the DB.
@@ -47,5 +45,6 @@ const disconnectFromDatababaseMiddleware = (req, res, next) => {
 
 module.exports = {
     createModelsMiddleware,
-    disconnectFromDatababaseMiddleware
+    disconnectFromDatababaseMiddleware,
+    logRequest
 }
